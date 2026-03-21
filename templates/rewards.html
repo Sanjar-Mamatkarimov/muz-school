@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Наши награды - Музыкальная школа{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1516280440614-37939bbacd24?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <div class="container">
+            <h1>Наши достижения</h1>
+            <p>Гордимся наградами и успехами наших учеников и преподавателей</p>
+        </div>
+    </div>
+</section>
+
+<!-- Awards Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Награды и достижения</h2>
+            <p>Наши успехи в конкурсах и фестивалях</p>
+        </div>
+        
+        <div class="row">
+            {% for reward in rewards %}
+            <div class="col-lg-3 col-md-6 mb-4 fade-in">
+                <div class="card reward-card h-100">
+                    {% if reward.image %}
+                        <img src="{{ reward.image.url }}" alt="{{ reward.title }}" class="card-img-top">
+                    {% else %}
+                        <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);">
+                            <i class="fas fa-trophy fa-4x text-white"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ reward.title }}</h5>
+                        {% if reward.description %}
+                            <p class="card-text">{{ reward.description|truncatewords:15 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Default rewards if none in database -->
+            <div class="col-lg-3 col-md-6 mb-4 fade-in">
+                <div class="card reward-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);">
+                        <i class="fas fa-trophy fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Гран-при</h5>
+                        <p class="card-text">Международный конкурс юных музыкантов</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4 fade-in">
+                <div class="card reward-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);">
+                        <i class="fas fa-medal fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">1 место</h5>
+                        <p class="card-text">Республиканский конкурс пианистов</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4 fade-in">
+                <div class="card reward-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #cd7f32 0%, #e8a55d 100%);">
+                        <i class="fas fa-award fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">2 место</h5>
+                        <p class="card-text">Конкурс струнных инструментов</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4 fade-in">
+                <div class="card reward-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #9b59b6 0%, #c39bd3 100%);">
+                        <i class="fas fa-star fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Лауреат</h5>
+                        <p class="card-text">Фестиваль музыкального искусства</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- CTA Section -->
+<section class="section bg-primary text-white">
+    <div class="container text-center">
+        <div class="fade-in">
+            <h2 class="mb-4">Хотите стать частью наших успехов?</h2>
+            <p class="lead mb-4">Присоединяйтесь к нашей музыкальной семье</p>
+            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg">Записаться на пробное занятие</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ settings.logo_text|default:"Музыкальная школа" }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <header style="background: #fff; padding: 20px 5%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            
+            <div style="display: flex; align-items: center;">
+                <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+                    {% if settings.logo %}
+                        <img src="{{ settings.logo.url }}" alt="Логотип" style="height: 50px; width: auto; object-fit: contain;">
+                    {% endif %}
+                    
+                    <span style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; color: #1a1a2e;">
+                        {{ settings.logo_text }}
+                    </span>
+                </a>
+            </div>
+
+            <ul style="display: flex; list-style: none; gap: 30px;">
+                <li><a href="#about" style="text-decoration: none; color: #333;">О школе</a></li>
+                <li><a href="#teachers" style="text-decoration: none; color: #333;">Учителя</a></li> <li><a href="#departments" style="text-decoration: none; color: #333;">Отделения</a></li>
+                <li><a href="#rewards" style="text-decoration: none; color: #333;">Награды</a></li> 
+                <li><a href="#news" style="text-decoration: none; color: #333;">Афиша</a></li>
+                <li><a href="#contacts" style="text-decoration: none; color: #333;">Контакты</a></li>
+            </ul>
+            <a href="#apply" style="background: #c5a059; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 600;">Записаться</a>
+        </nav>
+    </header>
+
+    <section class="hero" style="height: 70vh; 
+        background: linear-gradient(rgba(26, 26, 46, 0.7), rgba(26, 26, 46, 0.7)), 
+        url('{% if settings.hero_image %}{{ settings.hero_image.url }}{% else %}https://images.unsplash.com/photo-1514119412350-e174d90d280e?q=80&w=2070{% endif %}') 
+        no-repeat center/cover; 
+        display: flex; align-items: center; justify-content: center; text-align: center; color: #fff;">
+        <div>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 20px;">{{ settings.title }}</h1>
+            <p style="font-size: 1.2rem; font-weight: 300; max-width: 600px; margin: 0 auto 30px;">{{ settings.subtitle }}</p>
+            <a href="#departments" style="border: 2px solid #fff; color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 5px; transition: 0.3s;">Наши направления</a>
+        </div>
+    </section>
+
+    <section id="about" style="padding: 80px 10%; background: #fff;">
+        <div style="display: flex; align-items: center; gap: 50px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;">
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 25px;">{{ settings.about_title }}</h2>
+                <p style="line-height: 1.8; color: #555; margin-bottom: 20px;">{{ settings.about_description|linebreaks }}</p>
+            </div>
+            <div style="flex: 1; min-width: 300px;">
+                {% if settings.about_image %}
+                    <img src="{{ settings.about_image.url }}" style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1520529611473-d58ff3f47a3e?q=80&w=1000" style="width: 100%; border-radius: 15px;">
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section id="teachers" style="padding: 80px 10%; background: #fdfaf5;">
+        <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 50px;">Наши преподаватели</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
+            {% for teacher in teachers %}
+            <div style="text-align: center; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s;">
+                <div style="width: 180px; height: 180px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 4px solid #c5a059;">
+                    <img src="{{ teacher.photo.url }}" alt="{{ teacher.full_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 5px; color: #1a1a2e;">{{ teacher.full_name }}</h3>
+                <p style="color: #c5a059; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">{{ teacher.specialty }}</p>
+                <p style="color: #777; font-size: 0.9rem; line-height: 1.6;">{{ teacher.description|truncatewords:20 }}</p>
+            </div>
+            {% empty %}
+            <p style="text-align: center; width: 100%; color: #999;">Информация об учителях скоро появится.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="departments" style="padding: 80px 10%; background: #fff;">
+        <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 50px;">Наши отделения</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+            {% for dept in departments %}
+            <div style="background: #fdfaf5; padding: 40px; text-align: center; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <div style="margin-bottom: 20px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                    {% if dept.icon %}
+                        <img src="{{ dept.icon.url }}" alt="{{ dept.name }}" style="max-width: 70px; max-height: 70px; object-fit: contain;">
+                    {% else %}
+                        <span style="font-size: 3rem; color: #c5a059;">🎵</span>
+                    {% endif %}
+                </div>
+                <h3 style="margin-bottom: 10px; font-family: 'Playfair Display', serif;">{{ dept.name }}</h3>
+                <p style="color: #777; font-size: 0.9rem;">{{ dept.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="rewards" style="padding: 80px 10%; background: #fdfaf5;">
+        <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 50px;">Наши достижения</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+            {% for reward in rewards %}
+            <div style="text-align: center;">
+                <div style="overflow: hidden; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 15px; background: #fff; padding: 10px;">
+                    <img src="{{ reward.image.url }}" alt="{{ reward.title }}" style="width: 100%; height: 250px; object-fit: contain;">
+                </div>
+                <h4 style="font-family: 'Playfair Display', serif; margin-bottom: 5px;">{{ reward.title }}</h4>
+                {% if reward.description %}
+                    <p style="color: #777; font-size: 0.85rem;">{{ reward.description }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p style="text-align: center; width: 100%; color: #999;">Дипломы и награды скоро будут добавлены.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="news" style="padding: 80px 10%; background: #fff;">
+        <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 50px;">Афиша мероприятий</h2>
+        <div style="max-width: 800px; margin: 0 auto;">
+            {% for event in events %}
+            <div style="display: flex; background: #fdfaf5; margin-bottom: 20px; padding: 25px; border-radius: 10px; align-items: center; border-left: 5px solid #c5a059; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <div style="text-align: center; padding-right: 25px; margin-right: 25px; min-width: 90px; border-right: 1px solid #ddd;">
+                    <span style="display: block; font-size: 2rem; font-weight: 600; color: #1a1a2e;">{{ event.day }}</span>
+                    <span style="text-transform: uppercase; font-size: 0.8rem; color: #c5a059;">{{ event.month }}</span>
+                </div>
+                <div style="flex-grow: 1;">
+                    <h3 style="font-family: 'Playfair Display', serif; margin: 0;">{{ event.title }}</h3>
+                    <p style="color: #777; margin-top: 5px;">📍 {{ event.location }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="apply" style="padding: 80px 10%; background: #fdfaf5;">
+        <div style="max-width: 600px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <h2 style="text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 30px;">Записаться на урок</h2>
+            <form method="post" action="{% url 'home' %}#apply">
+                {% csrf_token %}
+                <div style="margin-bottom: 20px;">
+                    <input type="text" name="name" placeholder="Ваше имя" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" name="phone" placeholder="Ваш телефон" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <select name="instrument" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit; background: #fff;">
+                        <option value="">Выберите отделение</option>
+                        {% for dept in departments %}
+                            <option value="{{ dept.name }}">{{ dept.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" style="width: 100%; background: #c5a059; color: #fff; padding: 15px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: 0.3s;">
+                    Отправить заявку
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer id="contacts" style="background: #1a1a2e; color: #fff; padding: 60px 10% 20px; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Контакты</h2>
+            <p style="margin-bottom: 10px;">📍 {{ settings.address }}</p>
+            <p style="margin-bottom: 10px;">📞 {{ settings.phone }}</p>
+
+            {% if settings.instagram_url %}
+            <div style="margin-top: 20px;">
+                <a href="{{ settings.instagram_url }}" target="_blank" style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); padding: 10px 20px; border-radius: 5px; font-weight: 600; transition: 0.3s;">
+                    Instagram
+                </a>
+            </div>
+            {% endif %}
+
+            <div style="margin-top: 30px; opacity: 0.6;">
+                <p>&copy; 2026 {{ settings.footer_copy }}</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

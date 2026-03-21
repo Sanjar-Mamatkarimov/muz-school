@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Афиша - Музыкальная школа{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <div class="container">
+            <h1>Афиша мероприятий</h1>
+            <p>Концерты, выступления и события нашей музыкальной школы</p>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Ближайшие мероприятия</h2>
+            <p>Не пропустите наши концерты и выступления</p>
+        </div>
+        
+        <div class="row">
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="card-body">
+                        <div class="event-date">{{ event.day }} {{ event.month }}</div>
+                        <h5 class="card-title mt-3">{{ event.title }}</h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="eventModal{{ event.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ event.title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-3">
+                                <div class="event-date">{{ event.day }} {{ event.month }}</div>
+                            </div>
+                            <p><i class="fas fa-map-marker-alt me-2"></i><strong>Место проведения:</strong> {{ event.location }}</p>
+                            <div class="mt-3">
+                                <h6>О мероприятии:</h6>
+                                <p>Приглашаем вас на концерт наших талантливых учеников и преподавателей. В программе выступления юных музыкантов, показательные выступления педагогов и праздничная атмосфера.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Default events if none in database -->
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="card-body">
+                        <div class="event-date">15 Дек</div>
+                        <h5 class="card-title mt-3">Зимний концерт</h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-2"></i>Большой зал школы
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal1">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="card-body">
+                        <div class="event-date">22 Дек</div>
+                        <h5 class="card-title mt-3">Рождественский вечер</h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-2"></i>Концертный зал
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal2">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="card-body">
+                        <div class="event-date">10 Янв</div>
+                        <h5 class="card-title mt-3">Новый год в музыке</h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-2"></i>Актовый зал
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal3">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- CTA Section -->
+<section class="section">
+    <div class="container text-center">
+        <div class="fade-in">
+            <h2 class="mb-4">Хотите посетить наше мероприятие?</h2>
+            <p class="lead mb-4">Следите за нашей афишей и приходите на концерты</p>
+            <div class="mb-3">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-lg me-3">Записаться на мероприятие</a>
+                <a href="#" class="btn btn-outline-primary btn-lg">Подписаться на рассылку</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

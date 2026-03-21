@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - {{ settings.title }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="{% if settings.hero_image %}background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('{{ settings.hero_image.url }}'); background-size: cover; background-position: center; background-attachment: fixed;{% endif %}">
+    <div class="hero-content">
+        <div class="container">
+            <h1>{{ settings.title|default:"Музыкальная школа им. С. Бекмуратова" }}</h1>
+            <p>{{ settings.subtitle|default:"Откройте мир музыки вместе с нами" }}</p>
+            <a href="{% url 'contacts' %}" class="btn btn-primary btn-lg">Записаться на пробное занятие</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 fade-in">
+                <div class="section-title text-start">
+                    <h2>{{ settings.about_title|default:"О нашей школе" }}</h2>
+                </div>
+                <p class="lead">{{ settings.about_description|default:"Мы - современная музыкальная школа, где каждый может найти свой путь в мир музыки. Наши опытные преподаватели помогут вам освоить любой музыкальный инструмент и развить ваши таланты." }}</p>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-music fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5>Разные направления</h5>
+                                <p class="mb-0">Классическая и современная музыка</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-users fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5>Опытные педагоги</h5>
+                                <p class="mb-0">Профессиональные музыканты</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 fade-in">
+                {% if settings.about_image %}
+                    <img src="{{ settings.about_image.url }}" alt="О школе" class="img-fluid rounded-3 shadow">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1520531158340-58a149266f73?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="О школе" class="img-fluid rounded-3 shadow">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Departments Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Наши отделения</h2>
+            <p>Выберите направление, которое вам интересно</p>
+        </div>
+        <div class="row">
+            {% for department in departments %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    {% if department.icon %}
+                        <img src="{{ department.icon.url }}" alt="{{ department.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <i class="fas fa-music"></i>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ department.name }}</h5>
+                        <p class="card-text">{{ department.description|default:"Изучайте основы музыкального искусства под руководством опытных педагогов." }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <i class="fas fa-guitar"></i>
+                    <div class="card-body">
+                        <h5 class="card-title">Струнные инструменты</h5>
+                        <p class="card-text">Гитара, скрипка, виолончель и другие струнные инструменты</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <i class="fas fa-piano"></i>
+                    <div class="card-body">
+                        <h5 class="card-title">Клавишные инструменты</h5>
+                        <p class="card-text">Фортепиано, синтезатор, орган и другие клавишные</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <i class="fas fa-drum"></i>
+                    <div class="card-body">
+                        <h5 class="card-title">Ударные инструменты</h5>
+                        <p class="card-text">Барабаны, перкуссия и другие ударные инструменты</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'departments' %}" class="btn btn-outline-primary btn-lg">Все отделения</a>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Ближайшие мероприятия</h2>
+            <p>Не пропустите наши концерты и мероприятия</p>
+        </div>
+        <div class="row">
+            {% for event in events|slice:":3" %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="event-date">{{ event.day }} {{ event.month }}</div>
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="event-date">15 Дек</div>
+                    <h5 class="card-title">Зимний концерт</h5>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Большой зал школы</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="event-date">22 Дек</div>
+                    <h5 class="card-title">Рождественский вечер</h5>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Концертный зал</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card event-card h-100">
+                    <div class="event-date">10 Янв</div>
+                    <h5 class="card-title">Новый год в музыке</h5>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>Актовый зал</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'events' %}" class="btn btn-outline-primary btn-lg">Все мероприятия</a>
+        </div>
+    </div>
+</section>
+
+<!-- Teachers Preview Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Наши преподаватели</h2>
+            <p>Профессиональные музыканты с многолетним опытом</p>
+        </div>
+        <div class="row">
+            {% for teacher in teachers|slice:":3" %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card teacher-card h-100">
+                    {% if teacher.photo %}
+                        <img src="{{ teacher.photo.url }}" alt="{{ teacher.full_name }}" class="rounded-circle">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="{{ teacher.full_name }}" class="rounded-circle">
+                    {% endif %}
+                    <h5 class="card-title">{{ teacher.full_name }}</h5>
+                    <p class="text-primary">{{ teacher.specialty }}</p>
+                    <p class="card-text">{{ teacher.experience|default:"Опытный преподаватель" }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-md-4 mb-4 fade-in">
+                <div class="card teacher-card h-100">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Преподаватель" class="rounded-circle">
+                    <h5 class="card-title">Александр Иванов</h5>
+                    <p class="text-primary">Фортепиано</p>
+                    <p class="card-text">Заслуженный артист, 20 лет опыта</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'teachers' %}" class="btn btn-outline-primary btn-lg">Все преподаватели</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section bg-primary text-white">
+    <div class="container text-center">
+        <div class="fade-in">
+            <h2 class="mb-4">Начните свой путь в музыке сегодня!</h2>
+            <p class="lead mb-4">Запишитесь на пробное занятие и убедитесь в качестве нашего обучения</p>
+            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg me-3">Записаться на занятие</a>
+            <a href="{% url 'departments' %}" class="btn btn-outline-light btn-lg">Выбрать направление</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

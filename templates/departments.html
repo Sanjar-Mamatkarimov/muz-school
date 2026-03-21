@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}Отделения - Музыкальная школа{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <div class="container">
+            <h1>Наши отделения</h1>
+            <p>Выберите направление, которое вам интересно</p>
+        </div>
+    </div>
+</section>
+
+<!-- Departments Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Музыкальные направления</h2>
+            <p>У нас есть отделения для всех музыкальных предпочтений</p>
+        </div>
+        
+        <div class="row">
+            {% for department in departments %}
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    {% if department.icon %}
+                        <img src="{{ department.icon.url }}" alt="{{ department.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-music fa-4x text-white"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ department.name }}</h5>
+                        <p class="card-text">{{ department.description|default:"Изучайте основы музыкального искусства под руководством опытных педагогов." }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Default departments if none in database -->
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-guitar fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Струнные инструменты</h5>
+                        <p class="card-text">Гитара, скрипка, виолончель, альт, контрабас. Классическая и современная музыка.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-piano fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Клавишные инструменты</h5>
+                        <p class="card-text">Фортепиано, синтезатор, орган. От классики до джаза и современной музыки.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-drum fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Ударные инструменты</h5>
+                        <p class="card-text">Барабаны, перкуссия, ксилофон. Ритм и основы музыкального размера.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-microphone fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Вокал</h5>
+                        <p class="card-text">Академический и эстрадный вокал. Постановка голоса и сценическое мастерство.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <i class="fas fa-saxophone fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Духовые инструменты</h5>
+                        <p class="card-text">Флейта, кларнет, саксофон, труба. От классики до джаза.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="card department-card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                        <i class="fas fa-music fa-4x text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Музыкальная теория</h5>
+                        <p class="card-text">Сольфеджио, гармония, история музыки, композиция. Основы музыкальной грамотности.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Преимущества обучения у нас</h2>
+            <p>Почему выбирают нашу музыкальную школу</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4 fade-in">
+                <div class="d-flex">
+                    <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                    <div>
+                        <h5>Индивидуальный подход</h5>
+                        <p>Программа обучения подстраивается под каждого ученика</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 fade-in">
+                <div class="d-flex">
+                    <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                    <div>
+                        <h5>Регулярные выступления</h5>
+                        <p>Концерты и выступления для gaining опыта</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 fade-in">
+                <div class="d-flex">
+                    <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                    <div>
+                        <h5>Современное оборудование</h5>
+                        <p>Качественные инструменты и аппаратура</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 fade-in">
+                <div class="d-flex">
+                    <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                    <div>
+                        <h5>Гибкий график</h5>
+                        <p>Удобное время занятий для взрослых и детей</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section bg-primary text-white">
+    <div class="container text-center">
+        <div class="fade-in">
+            <h2 class="mb-4">Не можете выбрать направление?</h2>
+            <p class="lead mb-4">Запишитесь на консультацию и мы поможем определиться</p>
+            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg">Бесплатная консультация</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
