@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import SiteSettings, Department, Event, Application, Reward, Teacher
+from . models import SiteSettings, Department, Event, Application, Reward, Teacher, Review, GalleryImage
 
 
 @admin.register(SiteSettings)
@@ -51,3 +51,21 @@ class RewardAdmin(admin.ModelAdmin):
     list_display = ('title', 'order')
     list_editable = ('order',)
     ordering = ('order',)
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rating', 'created_at', 'is_published')
+    list_filter = ('rating', 'is_published', 'created_at')
+    list_editable = ('is_published',)
+    search_fields = ('name', 'text')
+    readonly_fields = ('created_at',)
+
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'event_date', 'created_at', 'is_published')
+    list_filter = ('is_published', 'created_at')
+    list_editable = ('is_published',)
+    search_fields = ('title', 'caption', 'event_date')
+    readonly_fields = ('created_at',)

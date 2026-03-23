@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Отзывы - Музыкальная школа{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <div class="container">
+            <h1>Отзывы</h1>
+            <p>Что говорят о нас наши ученики и их родители</p>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row">
+            <!-- Reviews List -->
+            <div class="col-lg-8 mb-4">
+                <div class="section-title fade-in">
+                    <h2>Отзывы наших учеников</h2>
+                    <p>Мнения родителей и учеников о нашей школе</p>
+                </div>
+                
+                {% if reviews %}
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                    {% for review in reviews %}
+                    <div class="col">
+                        <div class="card mb-3 fade-in review-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                    <h5 class="card-title mb-0">{{ review.name }}</h5>
+                                    <div class="text-warning">
+                                    {% for i in review.rating|rjust:5 %}
+                                        <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="text-muted xsmall mb-2">
+                                <i class="fas fa-calendar-alt me-1"></i>{{ review.created_at|date:"d.m.Y" }}
+                            </p>
+                            <p class="card-text review-text">{{ review.text }}</p>
+                        </div>
+                    </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info fade-in">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Пока нет опубликованных отзывов. Будьте первым, кто оставит отзыв!
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Review Form -->
+            <div class="col-lg-4 mb-4">
+                <div class="card review-form-card fade-in">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Оставить отзыв</h5>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form method="post" class="review-form">
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">Ваше имя *</label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.text.id_for_label }}" class="form-label">Ваш отзыв *</label>
+                                {{ form.text }}
+                                {% if form.text.errors %}
+                                    <div class="text-danger small mt-1">{{ form.text.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label d-block">Оценка *</label>
+                                <div class="rating-input">
+                                    {% for choice_value, choice_text in form.rating.field.choices %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" 
+                                                   id="id_rating_{{ choice_value }}" 
+                                                   name="rating" 
+                                                   value="{{ choice_value }}"
+                                                   {% if form.rating.value == choice_value|stringformat:"s" %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_rating_{{ choice_value }}">
+                                                {% for i in "12345" %}
+                                                    {% if i|add:"0" <= choice_value %}
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star text-muted"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.rating.errors %}
+                                    <div class="text-danger small mt-1">{{ form.rating.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">Отправить отзыв</button>
+                            <small class="text-muted d-block mt-2 text-center">Отзыв будет опубликован после модерации</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="section">
+    <div class="container text-center">
+        <div class="fade-in">
+            <h2 class="mb-4">Присоединяйтесь к нам</h2>
+            <p class="lead mb-4">Сотни учеников нашей школы уже делятся своим опытом</p>
+            <a href="#top-reviews" class="btn btn-primary btn-lg">Посмотреть все отзывы</a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .review-form input[type="text"],
+    .review-form textarea {
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .rating-input .form-check {
+        margin-right: 15px !important;
+    }
+
+    /* Уменьшаем визуально карточки отзывов, чтобы не занимали слишком много места */
+    .review-card {
+        max-height: none;
+        font-size: 0.92rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .review-card .card-body {
+        padding: 0.75rem;
+    }
+
+    .review-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 3;
+        margin-bottom: 0;
+    }
+
+    .card-title {
+        font-size: 0.98rem;
+    }
+
+    .text-muted.xsmall {
+        font-size: 0.75rem;
+    }
+
+    .review-card .card-title {
+        font-size: 1rem;
+    }
+
+    .review-card .card-text {
+        font-size: 0.9rem;
+    }
+
+    /* исправляем поведение формы слева, чтобы не перекрывала футер */
+    .review-form-card {
+        position: sticky;
+        top: 20px;
+    }
+
+    @media (max-width: 991px) {
+        .review-form-card {
+            position: static;
+            top: auto;
+        }
+    }
+    
+    .rating-input .form-check-label {
+        cursor: pointer;
+        display: block;
+        padding: 5px;
+    }
+    
+    .sticky-top {
+        top: 80px !important;
+    }
+</style>
+
+{% endblock %}

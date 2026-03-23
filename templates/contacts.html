@@ -49,15 +49,9 @@
                                 <label for="instrument" class="form-label">Инструмент/Отделение</label>
                                 <select class="form-select" id="instrument" name="instrument">
                                     <option value="">Выберите направление...</option>
-                                    <option value="Фортепиано">Фортепиано</option>
-                                    <option value="Гитара">Гитара</option>
-                                    <option value="Скрипка">Скрипка</option>
-                                    <option value="Виолончель">Виолончель</option>
-                                    <option value="Вокал">Вокал</option>
-                                    <option value="Барабаны">Барабаны</option>
-                                    <option value="Флейта">Флейта</option>
-                                    <option value="Саксофон">Саксофон</option>
-                                    <option value="Другое">Другое</option>
+                                    {% for department in departments %}
+                                        <option value="{{ department.name }}">{{ department.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -104,15 +98,10 @@
                         {% endif %}
                         
                         <div class="mb-4">
-                            <h6><i class="fas fa-envelope me-2"></i>Email</h6>
-                            <p>info@music-school.kg</p>
-                        </div>
-                        
-                        <div class="mb-4">
                             <h6><i class="fas fa-clock me-2"></i>Время работы</h6>
-                            <p>Пн-Пт: 9:00 - 20:00<br>
-                            Сб: 10:00 - 18:00<br>
-                            Вс: 10:00 - 16:00</p>
+                            <p>Пн-сб: 8:00 - 18:00<br>
+                            <br>
+                            </p>
                         </div>
                         
                         {% if settings.instagram_url %}

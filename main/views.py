@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import SiteSettings, Department, Event, Application, Reward, Teacher
-from .forms import ApplicationForm
+from .models import SiteSettings, Department, Event, Application, Reward, Teacher, Review, GalleryImage
+from .forms import ApplicationForm, ReviewForm
 
 def get_context():
     """Базовый контент для всех страниц"""
@@ -11,6 +11,7 @@ def get_context():
         'events': Event.objects.all(),
         'rewards': Reward.objects.all().order_by('order'),
         'teachers': Teacher.objects.all().order_by('order'),
+        'reviews': Review.objects.filter(is_published=True).order_by('-created_at'),
     }
 
 def home(request):
@@ -65,3 +66,24 @@ def contacts(request):
 
     context = get_context()
     return render(request, 'contacts.html', context)
+
+
+def reviews(request):
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Спасибо за ваш отзыв! Он будет опубликован после модерации.')
+            return redirect('reviews')
+    else:
+        form = ReviewForm()
+    
+    context = get_context()
+    context['form'] = form
+    return render(request, 'reviews.html', context)
+
+
+def gallery(request):
+    context = get_context()
+    context['gallery_images'] = GalleryImage.objects.filter(is_published=True).order_by('-created_at')
+    return render(request, 'gallery.html', context)

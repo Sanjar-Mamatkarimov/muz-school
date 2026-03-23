@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class SiteSettings(models.Model):
     logo = models.ImageField(upload_to='logos/', verbose_name="Логотип школы", blank=True, null=True)
     
@@ -22,7 +23,7 @@ class SiteSettings(models.Model):
         verbose_name="Ссылка на Instagram", 
         blank=True, 
         null=True,
-        help_text="Вставьте ссылку на Instsgram"
+        help_text="Вставьте ссылку на Instagram"
     )
 
     class Meta:
@@ -59,8 +60,8 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.day} {self.month} - {self.title}"
-    
-    
+
+
 class Application(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя ученика")
     phone = models.CharField(max_length=20, verbose_name="Номер телефона")
@@ -73,8 +74,8 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
-    
-    
+
+
 class Reward(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название награды")
     image = models.ImageField(upload_to='rewards/', verbose_name="Изображение награды")
@@ -88,8 +89,8 @@ class Reward(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
+
+
 class Teacher(models.Model):
     full_name = models.CharField(max_length=255, verbose_name="ФИО учителя")
     photo = models.ImageField(upload_to='teachers/', verbose_name="Фотография")
@@ -100,9 +101,45 @@ class Teacher(models.Model):
 
     class Meta:
         verbose_name = "Учитель"
-        verbose_name_plural = "Наши учителя"
+        verbose_name_plural = "Учителя"
         ordering = ['order']
 
     def __str__(self):
         return self.full_name
-        
+
+
+class Review(models.Model):
+    name = models.CharField(max_length=100, verbose_name="ФИ клиента")
+    text = models.TextField(verbose_name="Текст отзыва")
+    rating = models.PositiveIntegerField(
+        default=5, 
+        verbose_name="Оценка (1-5)", 
+        choices=[(i, str(i)) for i in range(1, 6)]
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    is_published = models.BooleanField(default=True, verbose_name="Опубликовать на сайте")
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Отзыв от {self.name}"
+
+
+class GalleryImage(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название фото")
+    image = models.ImageField(upload_to='gallery/', verbose_name="Фото")
+    caption = models.CharField(max_length=255, verbose_name="Описание", blank=True)
+    event_date = models.CharField(max_length=50, verbose_name="Дата/Мероприятие", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
+    is_published = models.BooleanField(default=True, verbose_name="Опубликовать")
+
+    class Meta:
+        verbose_name = "Фото в галерее"
+        verbose_name_plural = "Фото галереи"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title

@@ -256,6 +256,39 @@ footer {
     box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25);
 }
 
+@media (max-width: 768px) {
+    .form-control {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .form-select {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-control {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .form-select {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
 /* Стили для аккордеона */
 .accordion-button:not(.collapsed) {
     background-color: var(--primary-color);
