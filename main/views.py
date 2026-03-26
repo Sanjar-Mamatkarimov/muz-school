@@ -52,12 +52,16 @@ def contacts(request):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         instrument = request.POST.get('instrument', '')
+        age = request.POST.get('age', '')
+        message = request.POST.get('message', '')
 
         if name and phone:
             Application.objects.create(
                 name=name,
                 phone=phone,
-                instrument=instrument
+                instrument=instrument,
+                age=int(age) if age else None,
+                message=message
             )
             messages.success(request, 'Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.')
             return redirect('contacts')

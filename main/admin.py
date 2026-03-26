@@ -41,10 +41,11 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'instrument', 'created_at')
+    list_display = ('name', 'phone', 'instrument', 'age', 'created_at')
     readonly_fields = ('created_at',)
     list_filter = ('created_at',)
     search_fields = ('name', 'phone')
+    fields = ('name', 'phone', 'instrument', 'age', 'message', 'created_at')
     
 @admin.register(Reward)
 class RewardAdmin(admin.ModelAdmin):

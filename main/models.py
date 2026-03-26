@@ -66,6 +66,8 @@ class Application(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя ученика")
     phone = models.CharField(max_length=20, verbose_name="Номер телефона")
     instrument = models.CharField(max_length=100, verbose_name="Инструмент/Отделение", blank=True)
+    age = models.PositiveIntegerField(verbose_name="Возраст ученика", blank=True, null=True)
+    message = models.TextField(verbose_name="Комментарий", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата заявки")
 
     class Meta:
@@ -117,7 +119,7 @@ class Review(models.Model):
         choices=[(i, str(i)) for i in range(1, 6)]
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    is_published = models.BooleanField(default=True, verbose_name="Опубликовать на сайте")
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовать на сайте")
 
     class Meta:
         verbose_name = "Отзыв"
