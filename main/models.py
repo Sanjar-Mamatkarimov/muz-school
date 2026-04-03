@@ -25,6 +25,14 @@ class SiteSettings(models.Model):
         null=True,
         help_text="Вставьте ссылку на Instagram"
     )
+    
+    facebook_url = models.URLField(
+        max_length=500, 
+        verbose_name="Ссылка на Facebook", 
+        blank=True, 
+        null=True,
+        help_text="Вставьте ссылку на Facebook"
+    )
 
     class Meta:
         verbose_name = "Основные настройки"
@@ -145,3 +153,4 @@ class GalleryImage(models.Model):
 
     def __str__(self):
         return self.title
+    

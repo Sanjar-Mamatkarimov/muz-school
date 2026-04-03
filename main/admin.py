@@ -13,7 +13,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             'fields': ('about_title', 'about_description', 'about_image')
         }),
         ('Контактная информация', {
-            'fields': ('address', 'phone', 'instagram_url', 'footer_copy')
+            'fields': ('address', 'phone', 'instagram_url', 'facebook_url', 'footer_copy')
         }),
     )
 
