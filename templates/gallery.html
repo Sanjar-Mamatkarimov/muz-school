@@ -3,7 +3,7 @@
 {% block title %}Галерея - Музыкальная школа{% endblock %}
 
 {% block content %}
-<section class="hero" style="height: 45vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+<section class="hero" style="height: 45vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), {% if settings.gallery_background %}url('{{ settings.gallery_background.url }}'){% else %}url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'){% endif %}; background-size: cover; background-position: center;">
     <div class="hero-content">
         <div class="container">
             <h1>Фото-галерея</h1>

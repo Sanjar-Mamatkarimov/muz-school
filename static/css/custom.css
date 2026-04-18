@@ -1,5 +1,11 @@
 /* Дополнительные стили для музыкальной школы */
 
+/* Убрать горизонтальную прокрутку */
+html,
+body {
+    overflow-x: hidden;
+}
+
 /* Анимации */
 @keyframes fadeInUp {
     from {
@@ -273,6 +279,11 @@ footer {
 }
 
 @media (max-width: 576px) {
+    .navbar-brand {
+        max-width: 150px;
+        line-height: 1.2;
+    }
+
     .form-control {
         font-size: 0.85rem;
         padding: 0.4rem 0.6rem;

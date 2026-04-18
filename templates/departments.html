@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), {% if settings.departments_background %}url('{{ settings.departments_background.url }}'){% else %}url('https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'){% endif %}; background-size: cover; background-position: center;">
     <div class="hero-content">
         <div class="container">
             <h1>Наши отделения</h1>
@@ -37,7 +37,7 @@
                         <p class="card-text">{{ department.description|default:"Изучайте основы музыкального искусства под руководством опытных педагогов." }}</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                         <p class="card-text">Гитара, скрипка, виолончель, альт, контрабас. Классическая и современная музыка.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                         <p class="card-text">Фортепиано, синтезатор, орган. От классики до джаза и современной музыки.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <p class="card-text">Барабаны, перкуссия, ксилофон. Ритм и основы музыкального размера.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                         <p class="card-text">Академический и эстрадный вокал. Постановка голоса и сценическое мастерство.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                         <p class="card-text">Флейта, кларнет, саксофон, труба. От классики до джаза.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                         <p class="card-text">Сольфеджио, гармония, история музыки, композиция. Основы музыкальной грамотности.</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться</a>
+                        <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -189,9 +189,12 @@
 <section class="section bg-primary text-white">
     <div class="container text-center">
         <div class="fade-in">
-            <h2 class="mb-4">Не можете выбрать направление?</h2>
-            <p class="lead mb-4">Запишитесь на консультацию и мы поможем определиться</p>
-            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg">Бесплатная консультация</a>
+            <h2 class="mb-4">Готовы начать обучение?</h2>
+            <p class="lead mb-4">Запишитесь на консультацию или сразу на занятия</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'contacts' %}?type=free_consultation" class="btn btn-light btn-lg">Бесплатная консультация</a>
+                <a href="{% url 'contacts' %}?type=real_enrollment" class="btn btn-outline-light btn-lg">Записаться на занятия</a>
+            </div>
         </div>
     </div>
 </section>

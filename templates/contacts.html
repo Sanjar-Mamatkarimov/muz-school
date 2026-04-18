@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), {% if settings.contacts_background %}url('{{ settings.contacts_background.url }}'){% else %}url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'){% endif %}; background-size: cover; background-position: center;">
     <div class="hero-content">
         <div class="container">
             <h1>Контакты</h1>
@@ -38,7 +38,7 @@
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="name" class="form-label">Имя ученика *</label>
+                                <label for="name" class="form-label">ФИО *</label>
                                 <input type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <div class="mb-3">
@@ -57,6 +57,39 @@
                             <div class="mb-3">
                                 <label for="age" class="form-label">Возраст ученика</label>
                                 <input type="number" class="form-control" id="age" name="age" min="4" max="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Выберите тип записи *</label>
+                                <div class="application-type-options">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="application_type" id="type_trial" value="trial_lesson" {% if application_type == 'trial_lesson' %}checked{% endif %} required>
+                                        <label class="form-check-label" for="type_trial">
+                                            <strong>Пробное занятие</strong>
+                                            <small class="d-block text-muted">Первое занятие с преподавателем</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="application_type" id="type_consultation" value="free_consultation" {% if application_type == 'free_consultation' %}checked{% endif %}>
+                                        <label class="form-check-label" for="type_consultation">
+                                            <strong>Бесплатная консультация</strong>
+                                            <small class="d-block text-muted">Получить совет о выборе направления</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="application_type" id="type_real" value="real_enrollment" {% if application_type == 'real_enrollment' %}checked{% endif %}>
+                                        <label class="form-check-label" for="type_real">
+                                            <strong>Реальная запись</strong>
+                                            <small class="d-block text-muted">Записаться на постоянные занятия</small>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="application_type" id="type_event" value="event_registration" {% if application_type == 'event_registration' %}checked{% endif %}>
+                                        <label class="form-check-label" for="type_event">
+                                            <strong>Запись на мероприятие</strong>
+                                            <small class="d-block text-muted">Посетить концерт или выступление</small>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Комментарий</label>
@@ -116,6 +149,14 @@
                                 <a href="{{ settings.facebook_url }}" class="btn btn-outline-primary btn-sm">Подписаться</a>
                             </div>
                         {% endif %}
+                        {% if settings.map_embed_code %}
+                            <div class="mb-4">
+                                <h6><i class="fas fa-map-marked-alt me-2"></i>Карта</h6>
+                                <div class="ratio ratio-16x9">
+                                    {{ settings.map_embed_code|safe }}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 
@@ -130,14 +171,27 @@
     <div class="container text-center">
         <div class="fade-in">
             <h2 class="mb-4">Готовы начать музыкальное путешествие?</h2>
-            <p class="lead mb-4">Запишитесь на пробное занятие прямо сейчас</p>
-            <a href="#application-form" class="btn btn-light btn-lg">Записаться бесплатно</a>
+            <p class="lead mb-4">Запишитесь на пробное занятие или сразу на постоянные занятия</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-light btn-lg">Записаться на пробное занятие</a>
+                <a href="{% url 'contacts' %}?type=real_enrollment" class="btn btn-outline-light btn-lg">Записаться на занятия</a>
+            </div>
         </div>
     </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Получить тип заявки из URL параметра
+    const urlParams = new URLSearchParams(window.location.search);
+    const applicationType = urlParams.get('type') || 'trial_lesson';
+    
+    // Установить значение в radio кнопку
+    const radioButton = document.querySelector(`input[name="application_type"][value="${applicationType}"]`);
+    if (radioButton) {
+        radioButton.checked = true;
+    }
+    
     // Smooth scroll to form
     const ctaButton = document.querySelector('a[href="#application-form"]');
     if (ctaButton) {
@@ -171,5 +225,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<style>
+.application-type-options {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.application-type-options .form-check {
+    padding: 12px 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.application-type-options .form-check:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.application-type-options .form-check-input {
+    width: 1.25em;
+    height: 1.25em;
+    margin-top: 0.3em;
+    cursor: pointer;
+}
+
+.application-type-options .form-check-label {
+    margin-left: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.application-type-options .form-check-input:checked ~ .form-check-label {
+    color: #e74c3c;
+    font-weight: 600;
+}
+</style>
 
 {% endblock %}

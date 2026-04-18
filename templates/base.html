@@ -70,6 +70,10 @@
             font-weight: 700;
             color: var(--primary-color) !important;
             white-space: nowrap;
+            max-width: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-link {
@@ -102,12 +106,20 @@
             }
         }
 
+        @media (max-width: 992px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+                white-space: nowrap;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 0.4rem 0.5rem;
             }
             .navbar-brand {
                 font-size: 1.1rem;
+                white-space: nowrap;
             }
             .nav-link {
                 font-size: 0.86rem;

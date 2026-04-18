@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), url('https://images.unsplash.com/photo-1520531158340-58a149266f73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center;">
+<section class="hero" style="height: 60vh; background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.8)), {% if settings.teachers_background %}url('{{ settings.teachers_background.url }}'){% else %}url('https://images.unsplash.com/photo-1520531158340-58a149266f73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'){% endif %}; background-size: cover; background-position: center;">
     <div class="hero-content">
         <div class="container">
             <h1>Наши преподаватели</h1>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                            <a href="{% url 'contacts' %}" class="btn btn-primary">Записаться на урок</a>
+                            <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary">Записаться на урок</a>
                         </div>
                     </div>
                 </div>
@@ -128,8 +128,11 @@
     <div class="container text-center">
         <div class="fade-in">
             <h2 class="mb-4">Хотите заниматься с лучшими?</h2>
-            <p class="lead mb-4">Запишитесь на пробное занятие и выберите своего преподавателя</p>
-            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg">Записаться на пробное занятие</a>
+            <p class="lead mb-4">Запишитесь на пробное занятие или сразу на постоянные занятия</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-light btn-lg">Пробное занятие</a>
+                <a href="{% url 'contacts' %}?type=real_enrollment" class="btn btn-outline-light btn-lg">Записаться на занятия</a>
+            </div>
         </div>
     </div>
 </section>

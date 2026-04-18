@@ -9,7 +9,7 @@
         <div class="container">
             <h1>{{ settings.title|default:"Музыкальная школа им. С. Бекмуратова" }}</h1>
             <p>{{ settings.subtitle|default:"Откройте мир музыки вместе с нами" }}</p>
-            <a href="{% url 'contacts' %}" class="btn btn-primary btn-lg">Записаться на пробное занятие</a>
+            <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-primary btn-lg">Записаться на пробное занятие</a>
         </div>
     </div>
 </section>
@@ -202,8 +202,11 @@
     <div class="container text-center">
         <div class="fade-in">
             <h2 class="mb-4">Начните свой путь в музыке сегодня!</h2>
-            <p class="lead mb-4">Запишитесь на пробное занятие и убедитесь в качестве нашего обучения</p>
-            <a href="{% url 'contacts' %}" class="btn btn-light btn-lg me-3">Записаться на занятие</a>
+            <p class="lead mb-4">Запишитесь на пробное занятие или сразу на постоянные занятия</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-3">
+                <a href="{% url 'contacts' %}?type=trial_lesson" class="btn btn-light btn-lg">Пробное занятие</a>
+                <a href="{% url 'contacts' %}?type=real_enrollment" class="btn btn-outline-light btn-lg">Записаться на занятия</a>
+            </div>
             <a href="{% url 'departments' %}" class="btn btn-outline-light btn-lg">Выбрать направление</a>
         </div>
     </div>
